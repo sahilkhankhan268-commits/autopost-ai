@@ -1,0 +1,6 @@
+{
+  "name": "Fruit Sort 3D",
+  "description": "Satisfying 3D Whole Fruit Sorting Puzzle Game with progressive levels, realistic 3D fruit containers, power-ups, shop, and challenges.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
