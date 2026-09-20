@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Fruit Sort 3D - Web Edition</title>
+  <meta name="description" content="Satisfying 3D Fruit Sorting Puzzle Game with 1000 Levels, Luxury Shop, Power-ups, and Dynamic Themes.">
+  <meta name="theme-color" content="#0d0824">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div id="app-container" class="app-container theme-neon-night">
+    
+    <!-- Top Global Currency & Status Bar -->
+    <header class="top-nav">
+      <div class="nav-left">
+        <button id="btn-home" class="nav-icon-btn" title="Home Menu">🏠</button>
+        <div class="currency-pill coins-pill">
+          <span class="icon">🪙</span>
+          <span id="txt-coins" class="value">250</span>
+        </div>
+        <div class="currency-pill gems-pill">
+          <span class="icon">💎</span>
+          <span id="txt-gems" class="value">10</span>
+        </div>
+      </div>
+      <div class="nav-right">
+        <button id="btn-shop-shortcut" class="nav-icon-btn shop-btn" title="Shop">🛍️</button>
+        <button id="btn-spin-shortcut" class="nav-icon-btn spin-btn" title="Lucky Spin">🎡</button>
+        <button id="btn-settings" class="nav-icon-btn" title="Settings">⚙️</button>
+      </div>
+    </header>
+
+    <!-- SCREEN 1: HOME SCREEN -->
+    <section id="screen-home" class="screen active">
+      <div class="home-hero">
+        <div class="hero-logo-box">
+          <div class="floating-fruit f1">🍉</div>
+          <div class="floating-fruit f2">🍊</div>
+          <div class="floating-fruit f3">🍇</div>
+          <h1 class="logo-title">FRUIT SORT</h1>
+          <span class="logo-badge">3D DELUXE</span>
+        </div>
+        <p class="hero-subtitle">1000 Progressive Puzzle Levels</p>
+      </div>
+
+      <div class="home-progress-card">
+        <div class="progress-header">
+          <span>Current Level: <strong id="home-current-level">Level 1</strong></span>
+          <span class="star-count">⭐ <span id="home-total-stars">0</span>/3000</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="home-progress-fill" class="progress-bar-fill" style="width: 1%;"></div>
+        </div>
+      </div>
+
+      <div class="home-menu-actions">
+        <button id="btn-play-level" class="btn-primary-play">
+          <span class="play-icon">▶</span>
+          <div class="play-text">
+            <span class="main-label">PLAY LEVEL <span id="btn-play-level-num">1</span></span>
+            <span class="sub-label" id="btn-play-difficulty">Novice Mode</span>
+          </div>
+        </button>
+
+        <div class="grid-actions">
+          <button id="btn-open-levels" class="menu-tile tile-levels">
+            <span class="tile-icon">🗺️</span>
+            <span class="tile-title">1000 Saga</span>
+          </button>
+          <button id="btn-open-shop" class="menu-tile tile-shop">
+            <span class="tile-icon">🛍️</span>
+            <span class="tile-title">Shop</span>
+          </button>
+          <button id="btn-open-wheel" class="menu-tile tile-wheel">
+            <span class="tile-icon">🎡</span>
+            <span class="tile-title">Lucky Spin</span>
+          </button>
+          <button id="btn-open-daily" class="menu-tile tile-daily">
+            <span class="tile-icon">📅</span>
+            <span class="tile-title">Daily Streak</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Sponsor Bonus Ad Simulation -->
+      <div class="ad-sponsor-banner">
+        <div class="ad-info">
+          <strong>📺 Sponsor Video Bonus</strong>
+          <span>Watch 30s ad for 🪙 +100 Coins & 💎 +3 Gems</span>
+        </div>
+        <button id="btn-watch-ad" class="btn-watch-ad">WATCH ▶</button>
+      </div>
+    </section>
+
+    <!-- SCREEN 2: GAMEPLAY SCREEN -->
+    <section id="screen-game" class="screen">
+      <div class="game-hud">
+        <div class="hud-item hud-level">
+          <span class="hud-label">STAGE</span>
+          <span id="hud-level-text" class="hud-val">Level 1</span>
+        </div>
+        <div class="hud-item hud-timer" id="hud-timer-box">
+          <span class="hud-label">TIME</span>
+          <span id="hud-timer-text" class="hud-val">01:00</span>
+        </div>
+        <div class="hud-item hud-moves" id="hud-moves-box">
+          <span class="hud-label">MOVES</span>
+          <span id="hud-moves-text" class="hud-val">0</span>
+        </div>
+        <button id="btn-restart-level" class="hud-btn" title="Restart Level">🔄</button>
+      </div>
+
+      <!-- Main 3D Container Tubes Grid -->
+      <main id="tubes-board" class="tubes-board">
+        <!-- Generated dynamically via game.js -->
+      </main>
+
+      <!-- Bottom Power-Up Action Dock -->
+      <footer class="powerups-dock">
+        <button id="pu-undo" class="pu-btn" title="Undo Last Move">
+          <span class="pu-icon">↩️</span>
+          <span class="pu-name">Undo</span>
+          <span id="pu-count-undo" class="pu-badge">3</span>
+        </button>
+        <button id="pu-hammer" class="pu-btn" title="Hammer Top Fruit">
+          <span class="pu-icon">🔨</span>
+          <span class="pu-name">Hammer</span>
+          <span id="pu-count-hammer" class="pu-badge">2</span>
+        </button>
+        <button id="pu-tube" class="pu-btn" title="Add Extra Tube">
+          <span class="pu-icon">🧪</span>
+          <span class="pu-name">+Tube</span>
+          <span id="pu-count-tube" class="pu-badge">2</span>
+        </button>
+        <button id="pu-shuffle" class="pu-btn" title="Shuffle Board">
+          <span class="pu-icon">🔀</span>
+          <span class="pu-name">Shuffle</span>
+          <span id="pu-count-shuffle" class="pu-badge">1</span>
+        </button>
+        <button id="pu-frost" class="pu-btn" title="Frost Bomb (Defrost All)">
+          <span class="pu-icon">❄️</span>
+          <span class="pu-name">Defrost</span>
+          <span id="pu-count-frost" class="pu-badge">1</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- MODAL 1: 1000 LEVEL SAGA MAP -->
+    <div id="modal-levels" class="modal-overlay">
+      <div class="modal-content modal-levels-content">
+        <div class="modal-header">
+          <h2>🏆 1000 LEVEL SAGA</h2>
+          <button class="btn-close-modal" data-target="modal-levels">✕</button>
+        </div>
+
+        <div class="chapter-chips-row" id="chapter-chips">
+          <!-- 10 Chapters (1-100, 101-200, ...) generated in JS -->
+        </div>
+
+        <div class="levels-grid-container">
+          <div id="levels-grid" class="levels-grid">
+            <!-- 100 Level tiles generated dynamically -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 2: LUXURY SHOP -->
+    <div id="modal-shop" class="modal-overlay">
+      <div class="modal-content modal-shop-content">
+        <div class="modal-header">
+          <h2>🛍️ LUXURY SHOP</h2>
+          <button class="btn-close-modal" data-target="modal-shop">✕</button>
+        </div>
+
+        <div class="shop-tabs-row">
+          <button class="shop-tab active" data-tab="tubes">🏺 Tubes</button>
+          <button class="shop-tab" data-tab="themes">🎨 Themes</button>
+          <button class="shop-tab" data-tab="fruits">🍉 Fruits</button>
+          <button class="shop-tab" data-tab="boosts">⚡ Boosts</button>
+        </div>
+
+        <div id="shop-tab-tubes" class="shop-tab-pane active">
+          <!-- Tube skins list -->
+        </div>
+        <div id="shop-tab-themes" class="shop-tab-pane">
+          <!-- Board themes list -->
+        </div>
+        <div id="shop-tab-fruits" class="shop-tab-pane">
+          <!-- Fruit skin packs list -->
+        </div>
+        <div id="shop-tab-boosts" class="shop-tab-pane">
+          <!-- Power-up boosts list -->
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 3: LUCKY SPIN WHEEL -->
+    <div id="modal-wheel" class="modal-overlay">
+      <div class="modal-content modal-wheel-content">
+        <div class="modal-header">
+          <h2>🎡 LUCKY FORTUNE WHEEL</h2>
+          <button class="btn-close-modal" data-target="modal-wheel">✕</button>
+        </div>
+        <p class="wheel-subtitle">Spin once daily for free mega rewards!</p>
+
+        <div class="wheel-wrapper">
+          <div class="wheel-pointer">▼</div>
+          <canvas id="wheel-canvas" width="280" height="280"></canvas>
+        </div>
+
+        <button id="btn-spin-now" class="btn-primary-action">SPIN WHEEL 🎯</button>
+      </div>
+    </div>
+
+    <!-- MODAL 4: DAILY STREAK -->
+    <div id="modal-daily" class="modal-overlay">
+      <div class="modal-content modal-daily-content">
+        <div class="modal-header">
+          <h2>📅 7-DAY REWARD STREAK</h2>
+          <button class="btn-close-modal" data-target="modal-daily">✕</button>
+        </div>
+        <p class="daily-subtitle">Log in consecutive days to unlock massive prizes!</p>
+        <div id="daily-cards-grid" class="daily-cards-grid">
+          <!-- 7 Day cards generated dynamically -->
+        </div>
+        <button id="btn-claim-daily" class="btn-primary-action">CLAIM TODAY'S REWARD 🎁</button>
+      </div>
+    </div>
+
+    <!-- MODAL 5: SETTINGS -->
+    <div id="modal-settings" class="modal-overlay">
+      <div class="modal-content modal-settings-content">
+        <div class="modal-header">
+          <h2>⚙️ GAME SETTINGS</h2>
+          <button class="btn-close-modal" data-target="modal-settings">✕</button>
+        </div>
+        <div class="settings-list">
+          <div class="setting-row">
+            <span>🔊 Sound Effects</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="chk-sound" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <span>🎵 Background Melody</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="chk-music" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+          <div class="setting-row">
+            <span>📳 Haptic Vibration</span>
+            <label class="toggle-switch">
+              <input type="checkbox" id="chk-haptic" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="settings-danger">
+          <button id="btn-reset-data" class="btn-danger">RESET PROGRESS ⚠️</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 6: LEVEL WIN CELEBRATION -->
+    <div id="modal-win" class="modal-overlay">
+      <div class="modal-content modal-win-content">
+        <div class="win-crown">👑</div>
+        <h2 class="win-title">LEVEL COMPLETE!</h2>
+        <p class="win-subtitle" id="win-level-name">Perfect Fruit Sorting!</p>
+
+        <div class="stars-earned-row" id="win-stars-row">
+          <span class="star-icon">⭐</span>
+          <span class="star-icon">⭐</span>
+          <span class="star-icon">⭐</span>
+        </div>
+
+        <div class="win-rewards-box">
+          <div class="win-reward-pill">🪙 <span id="win-coins-amount">+50</span> Coins</div>
+          <div class="win-reward-pill">💎 <span id="win-gems-amount">+2</span> Gems</div>
+        </div>
+
+        <div class="win-buttons-row">
+          <button id="btn-win-replay" class="btn-secondary">🔄 REPLAY</button>
+          <button id="btn-win-next" class="btn-primary-action">NEXT LEVEL ▶</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODAL 7: GAME OVER (TIME OUT / MOVES OUT) -->
+    <div id="modal-lose" class="modal-overlay">
+      <div class="modal-content modal-lose-content">
+        <div class="lose-icon">⏳</div>
+        <h2 class="lose-title" id="lose-title-text">OUT OF TIME!</h2>
+        <p class="lose-subtitle">Don't give up! You can keep sorting.</p>
+
+        <div class="lose-actions">
+          <button id="btn-revive-ad" class="btn-revive">
+            <span>📺 FREE REVIVE (+30s)</span>
+          </button>
+          <button id="btn-lose-restart" class="btn-secondary">🔄 RESTART</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast Notification Banner -->
+    <div id="toast" class="toast-box"></div>
+
+    <!-- Ad Video Simulation Overlay -->
+    <div id="ad-video-overlay" class="ad-video-overlay">
+      <div class="ad-player-box">
+        <div class="ad-top-bar">
+          <span class="ad-tag">SPONSORED ADVERTISEMENT</span>
+          <span id="ad-timer" class="ad-timer">5s</span>
+        </div>
+        <div class="ad-body-creative">
+          <div class="ad-logo">🍉 Fruit Sort 3D</div>
+          <p>Connecting puzzle lovers worldwide!</p>
+          <div class="ad-spinner"></div>
+        </div>
+        <button id="btn-close-ad" class="btn-close-ad" disabled>Reward in 5s...</button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
